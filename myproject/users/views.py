@@ -1,6 +1,6 @@
-from flask import Blueprint,render_template,redirect,url_for, request
+from flask import Blueprint,render_template, redirect,url_for, request
 from myproject import db
-from myproject.users.forms import AddForm,DelForm, ListForm, ListLibForm
+from myproject.users.forms import AddForm, DelForm, ListForm, ListLibForm
 from myproject.models import Users, Libraries
 
 users_blueprint = Blueprint('users',
@@ -21,7 +21,7 @@ def add():
 
         return redirect(url_for('users.list'))
 
-    return render_template('addlib.html',form=form)
+    return render_template('add_user.html', form=form)
 
 @users_blueprint.route('/list')
 def list():
