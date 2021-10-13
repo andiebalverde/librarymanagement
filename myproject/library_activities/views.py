@@ -11,7 +11,7 @@ libraryactivities_blueprint = Blueprint('library_activities',
 @libraryactivities_blueprint.route('/add', methods=['GET', 'POST'])
 def add():
     form = AddForm()
-    users = list(Users.query.all())
+    users = db.session.query(Users.user_id)
     act_type_enum = [(a.value, a.name) for a in ActTypeEnum]
     library_book_ids = list(LibraryBooks.query.all())
 
@@ -19,36 +19,29 @@ def add():
         activity_type = str(request.form.get('act_type'))
         type = list(activity_type.split(","))
         user_id = list(request.form.get('user'))
-        #comp_select = request.form.get('comp_select')
 
-        print(f"activity type is: {str(activity_type)}")  # just to see what select is
+        print(f"activity type is: {str(activity_type)} and user_id is {user_id}")  # just to see what select is
 
         library_book_id = request.form.get('library_book_id')
         if form.checked_out_at.data:
             checked_out_at = form.checked_out_at.data
         else:
             checked_out_at = None
-        #if form.checked_in_at.data:
-            #checked_in_at = form.checked_in_at.data
-        #else:
-        #    checked_in_at = None
         checked_in_at = (request.form.get('checked_in_at.value'))
         print(f"checked in at: {str(checked_in_at)}")  # just to see what select is
         # Add new Library Activity to database
-        new_library_activity = LibraryActivities(activity_type=type[-1], user_id=int(user_id[-1]), library_book_id=library_book_id, checked_out_at=checked_out_at, checked_in_at=checked_in_at)
+        new_library_activity = LibraryActivities(activity_type=type[-1], user_id=int(user_id[1]), library_book_id=library_book_id, checked_out_at=checked_out_at, checked_in_at=checked_in_at)
         db.session.add(new_library_activity)
         print(f"This is the new library book: {new_library_activity}")
         db.session.flush()
         db.session.commit()
         library_activities = LibraryActivities.query.all()
 
-
-        lbid = new_library_activity.library_book_id[-1]
+        lbid2 = new_library_activity.library_book_id
+        lbid = int(str(lbid2[17]))
         laid = new_library_activity.library_activity_id
-        print(f"lbid is: {lbid} and library_activity_id is {laid}")
-        #db.session.execute("UPDATE library_books SET last_library_activity_id = ? WHERE library_book_id = ?", lbid, laid)
+        print(f"lbid2 is: {lbid2} lbid is: {lbid} and library_activity_id is {laid}")
         admin = LibraryBooks.query.filter_by(library_book_id=lbid).first()
-        #LibraryBooks.query.filter_by(library_book_id=lbid).first()
         admin.last_library_activity_id = laid
         db.session.commit()
 

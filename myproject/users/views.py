@@ -33,11 +33,14 @@ def list():
 @users_blueprint.route('/list_by_act', methods=['GET', 'POST'])
 def list_by_act():
     form = ListForm()
-    users = Users.query.all()
+    #users = Users.query.all()
+    users = db.session.query(Users.user_id)
 
     if form.validate_on_submit():
         #user_id = form.user_id.data
-        user_id = request.form.get('user')
+        #user_id = request.form.get('user')
+        user_id_raw = request.form.get('user')
+        user_id = int(user_id_raw[1])
         db.session.query()
         #users = db.session.execute("SELECT * from library_activities WHERE user_id = %s", {user_id})
         user_selected1 = db.session.execute("SELECT * from library_activities WHERE user_id = :ui AND activity_type like '%checkout%'", {'ui': user_id})
@@ -50,21 +53,25 @@ def list_by_act():
 @users_blueprint.route('/list_lib_checkout', methods=['GET', 'POST'])
 def list_lib_checkout():
     form = ListLibForm()
-    libraries = Libraries.query.all()
+    #libraries = Libraries.query.all()
+    libraries = db.session.query(Libraries.library_id)
 
     if form.validate_on_submit():
         #user_id = form.user_id.data
         library1 = request.form.get('library')
-        library = int(library1[-1])
+
+        library = int(str(library1[1]))
         db.session.query()
 
+        print(f"Library is {library} and library1 is {library1} ")
         #lib_selected1 = db.session.execute(
         #    "SELECT * FROM library_activities JOIN library_books ON library_activities.library_book_id = library_books.library_book_id "
         #                                    "JOIN libraries WHERE libraries.library_id = 'lid' AND library_activities.activity_type like '%checkout%'", {'lid': library})
-        lib_selected1 = db.session.execute("SELECT * from library_activities WHERE activity_type like '%checkout%'")
+        #lib_selected1 = db.session.execute("SELECT * from library_activities WHERE activity_type like '%checkout%'")
+        lib_selected1 = db.engine.execute("SELECT * FROM library_activities JOIN library_books ON library_activities.library_book_id = library_books.library_book_id JOIN libraries ON libraries.library_id = :lid WHERE library_activities.activity_type like '%checkout%'", {'lid': library})
 
         lib_selected = [dict(row) for row in lib_selected1]
-        print(f"Library is {library} and lib_selected is {lib_selected} and lib_selected1 is {lib_selected1}")
+        print(f"Library is {library} and library1 is {library1} and lib_selected1 is {lib_selected1} and lib_selected is {lib_selected}")
 
         return render_template('list_library_checkouts.html', form=form, libraries=libraries, user_selected=lib_selected)
     return render_template('list_library_checkouts.html', form=form, libraries=libraries)

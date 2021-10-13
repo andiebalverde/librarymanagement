@@ -22,7 +22,7 @@ class Users(db.Model):
 
     def __repr__(self):
         if self.name:
-            return f"User name is {self.name}"
+            return f"{self.name}"
         else:
             return f"User doesn't exist"
 

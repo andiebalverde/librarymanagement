@@ -24,7 +24,7 @@ def add():
         db.session.commit()
         books = Books.query.all()
         #return redirect(url_for('books.list', books=books)
-        return render_template('list_users.html', books=books)
+        return render_template('list.html', books=books)
 
     return render_template('add.html',form=form)
 
@@ -32,7 +32,7 @@ def add():
 def list():
     # Grab a list of Books from database.
     books = Books.query.all()
-    return render_template('list_users.html', books=books)
+    return render_template('list.html', books=books)
 
 @books_blueprint.route('/delete', methods=['GET', 'POST'])
 def delete():
@@ -47,4 +47,4 @@ def delete():
         db.session.commit()
 
         return redirect(url_for('books.list'))
-    return render_template('delete.html',form=form)
+    return render_template('delete.html', form=form)
