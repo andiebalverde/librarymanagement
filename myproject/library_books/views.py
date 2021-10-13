@@ -11,16 +11,21 @@ librarybooks_blueprint = Blueprint('library_books',
 def add():
 
     form = AddForm()
-    libraries = list(Libraries.query.all())  # query all libraries
+    #libraries = list(Libraries.query.all())  # query all libraries
+    libraries = db.session.query(Libraries.library_id)
     books = list(Books.query.all())
 
     if form.validate_on_submit():
-        #library_id = form.library_id.data
+
         library_id = request.form.get('library')
-        #book_id = form.book_id.data
+
+        print(f"library ID is: {library_id}")  # just to see what select is
+
+
         book_id = request.form.get('book')
         # Add new library_book to database
-        new_library_book = LibraryBooks(library_id=library_id, book_id=book_id, last_library_activity_id="Created")
+        print(f"library ID is {library_id}")
+        new_library_book = LibraryBooks(library_id=int(library_id[1]), book_id=book_id, last_library_activity_id="Created")
         db.session.add(new_library_book)
         print(f"This is the new library book: {new_library_book}")
         db.session.flush()
