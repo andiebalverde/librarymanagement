@@ -38,6 +38,6 @@ def add():
     return render_template('add_library_book.html', form=form, books=books, libraries=libraries)
 
 #@librarybooks_blueprint.route('/list')
-#def list(self):
+#def list():
 #    library_books = LibraryBooks.query.all()
 #    return render_template('list_library_book.html', library_books=library_books)

@@ -16,3 +16,6 @@ SQLAlchemy==1.2.6
 werkzeug==0.16.1
 wincertstore==0.2
 WTForms==2.1
+requests
+pytest
+jsonschema
