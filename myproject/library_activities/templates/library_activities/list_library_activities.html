@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Here is a list of all Library Activities.</h1>
+  <ul>
+    {% for act in library_activities  %}
+    <li>{{act}}</li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

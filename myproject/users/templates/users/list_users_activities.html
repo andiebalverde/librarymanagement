@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+
+  <h1>Select a User</h1>
+  <p>Select a user to list their Checked Out Books:</p>
+
+    <form method="POST">
+      {# This hidden_tag is a CSRF security feature. #}
+      {{ form.hidden_tag() }}
+      <select name="user" method="GET" action="/">
+        <option value="{{users[0]}}" selected>{{users[0]}}</option>
+        {% for user in users[1:] %}
+        <option value="{{user}}">{{user}}</option>
+        {% endfor %}
+      </select>
+      {{ form.submit() }}
+    </form>
+
+</div>
+
+<div class="jumbotron">
+  <h1>Here is a list of all selected user activities.</h1>
+  <ul>
+    {% for user in user_selected  %}
+    <li>{{user}}</li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Welcome to our Libraries Website</h1>
+  <p>Please select one of the links from the nav bar.</p>
+    <body>
+        <select name= colours method="GET" action="/">
+        {% for colour in colours %}
+        <option value= "{{colour}}" SELECTED>{{colour}}</option>"
+        {% endfor %}
+        </select>
+    </body>
+
+</div>
+{% endblock %}
+

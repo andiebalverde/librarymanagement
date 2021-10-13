@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+
+  <h1>Select a Library</h1>
+  <p>Select a library to list its Checked Out Books:</p>
+
+    <form method="POST">
+      {# This hidden_tag is a CSRF security feature. #}
+      {{ form.hidden_tag() }}
+      <select name="library" method="GET" action="/">
+        <option value="{{libraries[0]}}" selected>{{libraries[0]}}</option>
+        {% for library in libraries[1:] %}
+        <option value="{{library}}">{{library}}</option>
+        {% endfor %}
+      </select>
+      {{ form.submit() }}
+    </form>
+
+</div>
+
+<div class="jumbotron">
+  <h1>Here is a list of all library's checkouts.</h1>
+  <ul>
+    {% for library in user_selected  %}
+    <li>{{library}}</li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+{% endblock %}

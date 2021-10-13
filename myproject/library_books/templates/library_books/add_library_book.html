@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Add a Library Book</h1>
+  <p>Add a new library book with the form below:</p>
+
+  <select name="book" method="GET" action="/">
+    <option value="{{books[0]}}" selected>{{books[0]}}</option>
+    {% for book in books[1:] %}
+    <option value="{{book}}">{{book}}</option>
+  {% endfor %}
+  </select>
+
+  <select name="library" method="GET" action="/">
+    <option value="{{libraries[0]}}" selected>{{libraries[0]}}</option>
+    {% for library in libraries[1:] %}
+    <option value="{{library}}">{{library}}</option>
+  {% endfor %}
+  </select>
+
+
+
+    <form method="POST">
+      {# This hidden_tag is a CSRF security feature. #}
+      {{ form.hidden_tag() }}
+      {{ form.submit() }}
+  </form>
+</div>
+{% endblock %}

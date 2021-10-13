@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Add a Library Activity</h1>
+  <p>Add a new library activity with the form below:</p>
+
+    <form method="POST">
+      {# This hidden_tag is a CSRF security feature. #}
+      {{ form.hidden_tag() }}
+
+      <select name="library_book_id" method="GET" action="/">
+        <option value="{{library_book_ids[0]}}" selected>{{library_book_ids[0]}}</option>
+        {% for library_book_id in library_book_ids[1:] %}
+        <option value="{{library_book_id}}">{{library_book_id}}</option>
+        {% endfor %}
+      </select>
+
+
+      <select name="user" method="GET" action="/">
+        <option value="{{users[0]}}" selected>{{users[0]}}</option>
+        {% for user in users[1:] %}
+        <option value="{{user}}">{{user}}</option>
+        {% endfor %}
+      </select>
+
+      <select name="act_type" method="GET" action="/">
+      <option value="{{act_type_enum[0]}}" selected>{{act_type_enum[0]}}</option>
+        {% for act_type in act_type_enum[1:] %}
+        <option value="{{act_type}}">{{act_type}}</option>
+        {% endfor %}
+      </select>
+
+      {{ form.checked_out_at.label }} {{ form.checked_out_at() }}
+      <select name="checked_in_at" method="GET" action="/">
+        <input type="datetime-local" value="" id="checked_in_at">
+        <input type="button" value="time" name="timer" id="time">
+      </select>
+      {{ form.submit() }}
+  </form>
+</div>
+{% endblock %}
